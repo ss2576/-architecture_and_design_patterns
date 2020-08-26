@@ -1,0 +1,13 @@
+def application(environ, start_response):
+	print(type(environ))
+	print(environ)
+	path = environ['PATH_INFO']
+	if path == '/':
+		start_response('200 OK', [('Contetnt-Type', 'text/html')])
+		return [b'Index']
+	elif path == '/abc':
+		start_response('200 OK', [('Contetnt-Type', 'text/html')])
+		return [b'ABC']
+	else:
+		start_response('404 NOT FOUND', [('Contetnt-Type', 'text/html')])
+		return [b'404 Not Found']
