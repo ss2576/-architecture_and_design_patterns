@@ -5,7 +5,12 @@
     <title>created_contacts</title>
 </head>
 <body>
-    <h1>был POST запрос</h1>
-
+    <h1>запрос был передан методом POST</h1>
+    <h4>Вы передали данные :</h4>
+      <ul>
+        {% for elem in object_list %}
+          <li>{{elem}}  :  {{object_list[elem]}}</li>
+        {% endfor %}
+      </ul>
 </body>
 </html>

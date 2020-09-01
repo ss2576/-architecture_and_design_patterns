@@ -31,7 +31,7 @@ class Contacts:
 	
 class PostInfo:
 	def __call__(self, request):
-		list = [{}]
+		list = request
 		content = render('./html/created_contacts.html', object_list=list)
 		return '201 Created ', content
 
