@@ -8,9 +8,13 @@
     <h1>запрос был передан методом POST</h1>
     <h4>Вы передали данные :</h4>
       <ul>
-        {% for elem in object_list %}
-          <li>{{elem}}  :  {{object_list[elem]}}</li>
-        {% endfor %}
+
+          <li>Имя :  {{object_list['firstname']}}</li>
+          <li>Фамилия  :  {{object_list['lastname']}}</li>
+          <li>Телефон  :  {{object_list['tel']}}</li>
+          <li>Почта  :  {{object_list['e-mail']}}</li>
+          <li>Сообщение  :  {{object_list['text']}}</li>
+
       </ul>
 </body>
 </html>
