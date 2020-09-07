@@ -10,16 +10,38 @@ class Application:
 		self.routes_post = routes_post
 		self.fronts = fronts
 	def __call__(self, environ, start_response):
+		type_of_request = TypeOfRequest()
+		view, dict_data = type_of_request(environ, self.routes, self.routes_post)
+		# # #пока не придумал, в чём задействовать front
+		# # #for front in self.fronts:
+		# # #	front(request)
+		code, body = view(dict_data)
+		start_response(code, [('Content-Type', 'text/html')])
+
+		return body
+	
+
+class TypeOfRequest:
+	"""
+	# Определяет тип запроса(post или get), если post, то ищет в теле ENVIRON данные,
+	# вытаскиевает их ,декодирует и парсит в словарь.Возвращает view и dict_data
+	"""
+	def __call__(self, environ, routes, routes_post):
+		dict_data = {}
 		method = environ['REQUEST_METHOD']
 		path = environ['PATH_INFO']
-		request = {}
+		""" определяем какой контроллер будем использовать routes или  routes_post """
 		if method == 'GET':
-			if path in self.routes:
-				view = self.routes[path]
+			if path in routes:
+				view = routes[path]
 			else:
 				view = NotFound404View()
 		elif method == 'POST':
-			""" смотрим, есть ли данные в теле ENVIRON (CONTENT_LENGTH должен быть > 0) """
+			if path in routes_post:
+				view = routes_post[path]
+			else:
+				view = NotFound404View()
+			""" получаем данные в теле ENVIRON с помощью класса PostMethod"""
 			post_method = PostMethod()
 			input_encode_data = post_method(environ)
 			""" получаем декодированные данные с помощью класса WsgiInputDataDecode """
@@ -27,22 +49,18 @@ class Application:
 			input_data = wsgi_input_data_decode(input_encode_data)
 			""" получаем словарь из input_data с помощью класса ParseInputData """
 			parse_input_data = ParseInputData()
-			request = parse_input_data(input_data)
-			view = self.routes_post[path]
-		# пока не придумал, в чём задействовать front
-		# for front in self.fronts:
-		# 	front(request)
-		code, body = view(request)
-		start_response(code, [('Content-Type', 'text/html')])
+			dict_data = parse_input_data(input_data)
 
-		return body
-	
+		return view, dict_data
+
+
 
 class NotFound404View:
-	
+	""" если не найден адресс в URL строке, то Page Not Found"""
 	def __call__(self, request):
 		content = [b'<p style="font-size: 120px;">404 Page Not Found</p>']
-		return '404 WHAT', content
+
+		return '404 Page Not Found', content
 	
 	
 class Render:
@@ -54,7 +72,7 @@ class Render:
 			template = Template(f.read())
 		template_render = template.render(**kwargs)
 		template_render_encode = template_render.encode('UTF-8')
-		
+
 		return template_render_encode
 
 
@@ -67,7 +85,7 @@ class PostMethod:
 		content_length_data = environ.get('CONTENT_LENGTH')
 		content_length = int(content_length_data) if content_length_data else 0
 		input_encode_data = environ['wsgi.input'].read(content_length) if content_length > 0 else b''
-		
+
 		return input_encode_data
 
 
@@ -78,7 +96,7 @@ class WsgiInputDataDecode:
 	def __call__(self, input_encode_data: bytes) -> dict:
 		if input_encode_data:
 			input_decode_data = unquote_plus(input_encode_data.decode('UTF-8'))
-			
+
 		return input_decode_data
 
 
@@ -90,5 +108,5 @@ class ParseInputData():
 		for item in param:
 			k, v = item.split('=')
 			dict_data[k] = v
-			
+
 		return dict_data
