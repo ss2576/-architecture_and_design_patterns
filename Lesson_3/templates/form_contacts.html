@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+{% block title %}{{ object_list['title'] }}{% endblock %}
+{% block form_style %}
+        form{margin:0 auto;
+            width:300px
+            ;height:400px;
+            display:flex;
+            flex-direction:column;
+            justify-content:space-between}
+        form textarea{
+            resize:none}
+        form .redoutline{
+        outline:1px solid red}
+{% endblock %}
+
+{% block form %}
+    <form  action="" method="post">
+        <h3>Форма для заполнения данных:</h3>
+        <input type="text" name="firstname" placeholder="firstname">
+        <input type="text" name="lastname" placeholder="lastname">
+        <input type="tel" name="tel" placeholder="tel: +7(000)000-0000">
+        <input type="email" name="e-mail" placeholder="e-mail">
+        <textarea type="text" name="text" rows="10" ></textarea>
+        <input id="submit" type="submit">
+     </form>
+{% endblock %}
