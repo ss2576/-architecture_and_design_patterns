@@ -1,0 +1,10 @@
+{% extends "base/base.html" %}
+{% block title %}{{ object_list['title'] }}{% endblock %}
+{% block abc %}
+    <h1>ABC</h1>
+    <ul>
+        {% for elem in object_list['data'] %}
+        <li>{{elem['city']}}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

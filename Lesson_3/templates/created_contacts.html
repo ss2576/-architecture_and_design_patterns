@@ -1,0 +1,13 @@
+{% extends "base/base.html" %}
+{% block title %}{{ object_list['title'] }}{% endblock %}
+{% block created_contacts %}
+    <h1>запрос был передан методом POST</h1>
+    <h4>Вы передали данные :</h4>
+      <ul>
+          <li>Имя :  {{object_list['firstname']}}</li>
+          <li>Фамилия  :  {{object_list['lastname']}}</li>
+          <li>Телефон  :  {{object_list['tel']}}</li>
+          <li>Почта  :  {{object_list['e-mail']}}</li>
+          <li>Сообщение  :  {{object_list['text']}}</li>
+      </ul>
+{% endblock %}
