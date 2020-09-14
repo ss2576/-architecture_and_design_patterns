@@ -1,10 +1,10 @@
 {% extends "base/base.html" %}
-{% block title %}{{ object_list['title'] }}{% endblock %}
+{% block title %}{{object_list.title}}{% endblock %}
 {% block other %}
     <h1>Other</h1>
     <ul>
-        {% for elem in object_list['data'] %}
-        <li>{{elem['tel']}}</li>
+        {% for elem in object_list.telephones %}
+        <li>{{elem.tel}}</li>
         {% endfor %}
     </ul>
 {% endblock %}

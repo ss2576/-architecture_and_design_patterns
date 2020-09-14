@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-{% block title %}{{ object_list['title'] }}{% endblock %}
+{% block title %}{{ object_list.title }}{% endblock %}
 {% block form_style %}
         form{margin:0 auto;
             width:300px
@@ -19,7 +19,7 @@
         <input type="text" name="firstname" placeholder="firstname">
         <input type="text" name="lastname" placeholder="lastname">
         <input type="tel" name="tel" placeholder="tel: +7(000)000-0000">
-        <input type="email" name="e-mail" placeholder="e-mail">
+        <input type="email" name="email" placeholder="e-mail">
         <textarea type="text" name="text" rows="10" ></textarea>
         <input id="submit" type="submit">
      </form>

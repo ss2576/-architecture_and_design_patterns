@@ -74,17 +74,12 @@ class Render:
 	# вставляет данные в страницу HTML и кодирует данные с помощью encode('UTF-8')
 	"""
 	def __call__(self, template_name, folder='templates', **kwargs):
-		# with open(template_name) as f:
-		# 	template = Template(f.read())
-		# template_render = template.render(**kwargs)
-		# template_render_encode = template_render.encode('UTF-8')
-		# return template_render_encode
-		#
 		env = Environment()
 		env.loader = FileSystemLoader(folder)
 		template = env.get_template(template_name)
 		template_render = template.render(**kwargs)
 		template_render_encode = template_render.encode('UTF-8')
+		
 		return template_render_encode
 
 class PostMethod:
@@ -96,6 +91,7 @@ class PostMethod:
 		content_length_data = environ.get('CONTENT_LENGTH')
 		content_length = int(content_length_data) if content_length_data else 0
 		input_encode_data = environ['wsgi.input'].read(content_length) if content_length > 0 else b''
+		
 		return input_encode_data
 
 
