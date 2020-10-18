@@ -245,9 +245,10 @@ class AttachUserCourse:
 	@debug
 	def __call__(self, request):
 		logger.log('Прикрепление курсов')
-		course_name = request['request_params']['course_name']
 		course_id = int(request['request_params']['course_id'])
 		user_id = int(request['request_params']['user_id'])
+		course = site.get_course(course_id)
+		course_name = course.name
 		user = site.find_user_by_id(user_id)
 		site.create_personal_course(course_name, course_id, user_id)
 		personal_courses, quantity = User.course_count(user)
