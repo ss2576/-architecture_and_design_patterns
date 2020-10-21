@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+{% block title %}{{object_list.title}}{% endblock %}
+{% block body %}
+{% include "base/inc-menu.html" %}
+<h1>Созданы Курсы</h1>
+    <ul>
+        {% for elem in object_list.courses %}
+           <li>
+               Курс "{{elem.name}}"
+               <span>
+                  <a href="/remove-course/?course_id={{elem.id}}">
+                      удалить курс
+                  </a>
+               </span>
+           </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
